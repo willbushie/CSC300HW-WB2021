@@ -1,19 +1,11 @@
-#include <string>
-#include <iostream>
+#include "URL.hpp"
 #include <curl/curl.h>
+#include <iostream>
 
 using namespace std;
 
-//
-// For this demonstration, the contents of the web page are put
-// into this global variable.
-//
 string contents = "";
 
-//
-// This is the callback function that is called by
-// curl_easy_perform(curl)
-//
 size_t handle_data(void *ptr, size_t size, size_t nmemb, void *stream)
 {
     //make it so ptr can be treated as a modern string
@@ -30,19 +22,19 @@ size_t handle_data(void *ptr, size_t size, size_t nmemb, void *stream)
     return size*nmemb;
 }
 
-int main(int argc, char *argv[])
+URL::URL(string theURL)
 {
-    if (argc != 2)
-    {
-        cerr << "use: curltest url\n";
-        return -1;
-    }
+    this->theURL = theURL;
+}
 
+string URL::getContents()
+{
+    contents = "";
     CURL* curl = curl_easy_init();
     if(curl) //if the variable has something in it
     {
         // Tell libcurl the URL
-        curl_easy_setopt(curl,CURLOPT_URL, argv[1]);
+        curl_easy_setopt(curl,CURLOPT_URL, this->theURL.c_str());
         // Tell libcurl what function to call when it has data
         curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,handle_data); //what function should I "callback" when I get data
         // Do it!
@@ -50,19 +42,12 @@ int main(int argc, char *argv[])
         curl_easy_cleanup(curl);
         if (res == 0) //if the error code is 0, everything went well
         {
-            cout << contents << endl;
-
-            string temp = "";
-            for(int i = 0; i < 5; i++)
-            {
-                temp += contents[i];
-            }
-            cout << temp << endl;
+            return contents;
         }
         else
         {
-            cerr << "Error: " << res << endl;
+            cerr << "Error: " << res << endl;  
         }
     }
-    return 0;
+    return "NO CONTENTS!!!";
 }
