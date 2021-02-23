@@ -1,1 +1,1 @@
-g++ driver.cpp URL.cpp -l curl
+g++ -g driver.cpp URL.cpp -l curl

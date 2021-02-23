@@ -2,4 +2,5 @@
 
 using namespace std;
 
-string processJSON(string json);
+string processJSONArray(string json, int start);
+string processJSONObject(string json, int start);
