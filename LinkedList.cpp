@@ -11,6 +11,38 @@ LinkedList::LinkedList()
     this->count = 0;
 }
 
+void LinkedList::addFront(int value)
+{
+    if(this->head)
+    {
+        //add it to the front
+        Node* n = new Node(value);
+        n->setNextNode(this->head);
+        this->head = n;
+         this->count++;
+    }
+    else
+    {
+        //we have an empty list, so addFront and addEnd mean the same thing
+        this->addEnd(value);
+    }
+}
+
+int LinkedList::removeFront()
+{
+    if(this->head)
+    {
+        Node* currFront = this->head;
+        this->head = this->head->getNextNode();
+        currFront->setNextNode(NULL);
+        int valueToReturn = currFront->getPayload();
+        delete(currFront);
+        this->count--;
+        return valueToReturn;
+    }
+    
+}
+
 void LinkedList::addEnd(int value)
 {
     Node* n = new Node(value);
