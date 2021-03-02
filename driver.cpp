@@ -15,18 +15,14 @@ int main(int argc, char** argv)
     //cout << jsonString << endl;
     //processJSONObject(jsonString, 0);
     LinkedList* ll = new LinkedList();
-    /*
     ll->addEnd(4);
     ll->addEnd(6);
     ll->addEnd(8);
     ll->addEnd(2);
-    */
     ll->addFront(13);
     ll->addFront(17);
-    int value = ll->removeFront();
     ll->display();
-    cout << value << endl;
-    value = ll->removeFront();
+    int value = ll->removeAtIndex(3);
     ll->display();
     cout << value << endl;
     
