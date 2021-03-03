@@ -11,55 +11,158 @@ LinkedList::LinkedList()
     this->count = 0;
 }
 
-// method to add an element to the front of the linked list
-void LinkedList::addFront(int value)
+int LinkedList::addAtIndex(int index, int value)
 {
-    Node* n = new Node(value);
-    if(head == NULL)
+    // is the list empty?
+    if (this->head)
     {
-        //we have the empty list
-        this->head = n;
-        this->tail = n;
+        // is the ask out of bounds?
+        if (index < 0 || index >= this->count)
+        {
+            cout << "The entered index is out of bounds." << endl;
+        } 
+        else
+        {
+            // add at at the front of the list
+            if (index == 0)
+            {
+                this->addFront(value);
+            }
+            // add at the end of the list
+            else if (index == this->count-1)
+            {
+                this->addEnd(value);
+            }
+            else
+            {
+                Node* newNode = new Node(value);
+                Node* newNodeNextNode;
+                Node* currNode = this->head;
+                // store nextNode of index-1
+                if (index == 1)
+                {
+                    newNodeNextNode = currNode->getNextNode();
+                    // update nextNode of both currNode & newNode
+                    currNode->setNextNode(newNode);
+                    newNode->setNextNode(newNodeNextNode);
+
+                }
+                else
+                {
+                    for (int i = 0; i < index-1; i++)
+                    {
+                        currNode = currNode->getNextNode();
+                        newNodeNextNode = currNode->getNextNode();
+                    }
+
+                }
+                this->count++;
+            }
+        }
     }
     else
     {
-        // store current head as updatedHeadNextNode
-        Node* updatedHeadNextNode = this->head;
-        // add head to the new head
-        this->head = n;
-        // set the new nextNode of the new head
-        this->head->setNextNode(updatedHeadNextNode);
+        cout << "The list is empty." << endl;
     }
-    this->count++; 
 }
 
-// method to remove an element from the front of the list
-int LinkedList::removeFront()
+int LinkedList::removeAtIndex(int index)
 {
-    if(this->count > 0) 
+    if(this->head)
     {
-        Node* n = this->head; 
-        int value = n->getPayload(); 
-        if(this->count == 1) 
+        if(index < 0 || index >= this->count)
         {
-            this->head = NULL;
-            this->tail = NULL;
-            
+            cout << "ArrayIndexOutOfBoundException!!!!" << endl;
         }
         else
         {
-            // assign the new head of the list
-            Node* currNode = this->head->getNextNode();
-            this->head = currNode;
+            //I actuall have something to remove
+            if(index == 0)
+            {
+                return this->removeFront();
+            }
+            else if(index == this->count-1)
+            {
+                return this->removeEnd();
+            }
+            else
+            {
+                //we are removing from somewhere in the middle
+                Node* prevDude = this->head;
+                Node* dude2Remove = this->head;
+
+                //How do I get prevDude and dude2Remove set in a single loop?
+                //run dude2Remove to the correct index
+                for(int i = 0; i < index; i++)
+                {
+                    dude2Remove = dude2Remove->getNextNode();
+                }
+
+                //now make preDude point to the node right before dude2Remove
+                while(prevDude->getNextNode() != dude2Remove)
+                {
+                    prevDude = prevDude->getNextNode();
+                }
+
+                /* Identical result as the while loop above
+                //what is another way we could have written the while loop above?
+                for(int i = 0; i < index-1; i++)
+                {
+                    prevDude = prevDude->getNextNode();
+                }
+                */
+
+               //Now everything is position and we are ready to operate!!!
+               prevDude->setNextNode(dude2Remove->getNextNode());
+               dude2Remove->setNextNode(NULL);
+               int value2Return = dude2Remove->getPayload();
+               delete(dude2Remove);
+               this->count--;
+               return value2Return;
+            }
+            
         }
-        this->count--;
-        delete(n); //if we didn't do this, we technically have a memory leak
-        return value; 
+        
+    }
+    else
+    {
+        cout << "Nothing to Remove from the Empty List" << endl;
+    }
+    
+}
+
+void LinkedList::addFront(int value)
+{
+    if(this->head)
+    {
+        //add it to the front
+        Node* n = new Node(value);
+        n->setNextNode(this->head);
+        this->head = n;
+         this->count++;
+    }
+    else
+    {
+        //we have an empty list, so addFront and addEnd mean the same thing
+        this->addEnd(value);
     }
 }
 
+int LinkedList::removeFront()
+{
+    if(this->head)
+    {
+        Node* currFront = this->head;
+        this->head = this->head->getNextNode();
+        currFront->setNextNode(NULL);
+        int valueToReturn = currFront->getPayload();
+        delete(currFront);
+        this->count--;
+        return valueToReturn;
+    }
+    
+}
 
-// method to add an element to the end of the linked list
 void LinkedList::addEnd(int value)
 {
     Node* n = new Node(value);
@@ -79,7 +182,6 @@ void LinkedList::addEnd(int value)
     this->count++;
 }
 
-// method to remove the end element of the linked list
 int LinkedList::removeEnd()
 {
     if(this->count > 0)
@@ -105,10 +207,10 @@ int LinkedList::removeEnd()
         this->count--;
         delete(n); //if we didn't do this, we technically have a memory leak
         return value;
-    }    
+    }
+    
 }
 
-// method to display the linked list & its contents
 void LinkedList::display()
 {
     if(this->count == 0)
@@ -124,5 +226,5 @@ void LinkedList::display()
             currNode = currNode->getNextNode();
         }
         cout << currNode->getPayload() << endl;
-    }
+    }   
 }

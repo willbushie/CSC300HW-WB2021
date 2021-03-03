@@ -16,14 +16,14 @@ int main(int argc, char** argv)
     ll->addEnd(6);
     ll->addEnd(8);
     ll->addEnd(2);
+    ll->addFront(13);
+    ll->addFront(17);
     ll->display();
-    int valueRME = ll->removeEnd();
-    int valueRMF = ll->removeFront();
+    //int value = ll->removeAtIndex(3);
     ll->display();
-    ll->addFront(1);
+    //cout << value << endl;
+    ll->addAtIndex(1, 0);
     ll->display();
-    cout << valueRME << endl;
-    cout << valueRMF << endl;
     return 0;
 }
 /*
