@@ -11,6 +11,31 @@ LinkedList::LinkedList()
     this->count = 0;
 }
 
+void LinkedList::addAtIndex(int value, int index)
+{
+    if(index == 0)
+    {
+        this->addFront(value);
+    }
+    else if(index == this->count)
+    {
+        this->addEnd(value);
+    }
+    else
+    {
+        Node* dude2Add = new Node(value);
+        Node* prevDude = this->head;
+        for(int i = 0; i < (index-1); i++)
+        {
+            prevDude = prevDude->getNextNode();
+        }
+        dude2Add->setNextNode(prevDude->getNextNode());
+        prevDude->setNextNode(dude2Add);
+        this->count++;
+    }
+    
+}
+
 int LinkedList::removeAtIndex(int index)
 {
     if(this->head)

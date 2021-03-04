@@ -25,6 +25,8 @@ int main(int argc, char** argv)
     int value = ll->removeAtIndex(3);
     ll->display();
     cout << value << endl;
+    ll->addAtIndex(6, 2);
+    ll->display();
     
     return 0;
 }

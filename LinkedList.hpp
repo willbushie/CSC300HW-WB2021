@@ -15,4 +15,5 @@ class LinkedList
         void addFront(int value);
         int removeFront();
         int removeAtIndex(int index);
+        void addAtIndex(int value, int index);
 };
