@@ -5,11 +5,22 @@ Node::Node(int payload)
 {
     this->payload = payload;
     this->nextNode = NULL;
+    this->prevNode = NULL;
+}
+
+Node* Node::getPrevNode()
+{
+    return this->prevNode;
 }
 
 void Node::setNextNode(Node* n)
 {
     this->nextNode = n;
+}
+
+void Node::setPrevNode(Node* n)
+{
+    this->prevNode = n;
 }
 
 Node* Node::getNextNode()

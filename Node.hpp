@@ -3,6 +3,7 @@ class Node
     private:
         int payload;
         Node* nextNode;
+        Node* prevNode;
         
     
     public:
@@ -10,4 +11,6 @@ class Node
         void setNextNode(Node* n);
         Node* getNextNode();
         int getPayload();
+        void setPrevNode(Node* n);
+        Node* getPrevNode();
 };

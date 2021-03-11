@@ -11,59 +11,84 @@ LinkedList::LinkedList()
     this->count = 0;
 }
 
-int LinkedList::addAtIndex(int index, int value)
+// sorting method for int linked list (insertionSort)
+void LinkedList::insertionSortLL()
 {
-    // is the list empty?
-    if (this->head)
+    Node* currStart = this->head;
+    Node* theFollower;
+    for (int currPos = 0; currPos < this->count; currPos++)
     {
-        // is the ask out of bounds?
-        if (index < 0 || index >= this->count)
+        theFollower = currStart;
+        while (theFollower != this->head && theFollower->getPayload() < theFollower->getPrevNode()->getPayload())
         {
-            cout << "The entered index is out of bounds." << endl;
-        } 
-        else
-        {
-            // add at at the front of the list
-            if (index == 0)
-            {
-                this->addFront(value);
-            }
-            // add at the end of the list
-            else if (index == this->count-1)
-            {
-                this->addEnd(value);
-            }
-            else
-            {
-                Node* newNode = new Node(value);
-                Node* newNodeNextNode;
-                Node* currNode = this->head;
-                // store nextNode of index-1
-                if (index == 1)
-                {
-                    newNodeNextNode = currNode->getNextNode();
-                    // update nextNode of both currNode & newNode
-                    currNode->setNextNode(newNode);
-                    newNode->setNextNode(newNodeNextNode);
-
-                }
-                else
-                {
-                    for (int i = 0; i < index-1; i++)
-                    {
-                        currNode = currNode->getNextNode();
-                        newNodeNextNode = currNode->getNextNode();
-                    }
-
-                }
-                this->count++;
-            }
+            Node* prevNodeOfPrevNodeOfFollower = NULL;
+            swapNodes(theFollower->getPrevNode(), theFollower);
+            theFollower = theFollower->getPrevNode();
         }
+        currStart = currStart->getNextNode();
+    }
+}
+
+// this method flips two nodes in the linked list
+// A is the node to move "behind" B
+// process: (B, A) -> (A, B)
+// if B does not have a previous node, pass null
+void LinkedList::swapNodes(Node* B, Node* A)
+{
+    Node* A_nextNode = A->getNextNode();
+    Node* B_nextNode = B->getNextNode();
+
+    if (this->head == B) // if B is head of linked list
+    {
+        this->head = A;
+        A->setNextNode(B);
+        B->setNextNode(A_nextNode);
+    }    
+    else if (this->tail == A) // if A is the tail
+    {
+        this->tail = B;
+        A->setNextNode(B);
+        B->setNextNode(A_nextNode);
+        if (B->getPrevNode() != NULL)
+        {
+            B->getPrevNode()->setNextNode(A);
+        }
+    }
+    else // if the nodes passed are in the middle of the list
+    {
+        A->setNextNode(B);
+        B->setNextNode(A_nextNode);
+        if (B->getPrevNode() != NULL)
+        {
+            B->getPrevNode()->setNextNode(A);
+        }
+    }
+}
+
+
+void LinkedList::addAtIndex(int value, int index)
+{
+    if(index == 0)
+    {
+        this->addFront(value);
+    }
+    else if(index == this->count)
+    {
+        this->addEnd(value);
     }
     else
     {
-        cout << "The list is empty." << endl;
+        Node* dude2Add = new Node(value);
+        Node* prevDude = this->head;
+        for(int i = 0; i < (index-1); i++)
+        {
+            prevDude = prevDude->getNextNode();
+        }
+        dude2Add->setNextNode(prevDude->getNextNode());
+        prevDude->setNextNode(dude2Add);
+        this->count++;
     }
+    
 }
 
 int LinkedList::removeAtIndex(int index)
@@ -120,15 +145,12 @@ int LinkedList::removeAtIndex(int index)
                this->count--;
                return value2Return;
             }
-            
         }
-        
     }
     else
     {
         cout << "Nothing to Remove from the Empty List" << endl;
     }
-    
 }
 
 void LinkedList::addFront(int value)
@@ -210,7 +232,6 @@ int LinkedList::removeEnd()
     }
     
 }
-
 void LinkedList::display()
 {
     if(this->count == 0)
@@ -226,5 +247,6 @@ void LinkedList::display()
             currNode = currNode->getNextNode();
         }
         cout << currNode->getPayload() << endl;
-    }   
+    }
+    
 }
