@@ -11,6 +11,42 @@ LinkedList::LinkedList()
     this->count = 0;
 }
 
+Node* LinkedList::getNodeAtIndex(int index)
+{
+    if(index >= 0 && index < this->count)
+    {
+        //return the node at that position in the list
+        Node* currNode = this->head;
+        for(int i = 0; i < index; i++)
+        {
+            currNode = currNode->getNextNode();
+        }
+        return currNode;
+    }
+    return NULL; //not a legal index!!!
+}
+
+void LinkedList::insertionSort()
+{
+    //does this list need to potentially be sorted?
+    if(this->count > 1)
+    {
+        Node* theFollowerNode;
+        Node* swapNode;
+        int theFollowerPos;
+
+        for(int currStart = 1; currStart < this->count; currStart++)
+        {
+            theFollowerPos = currStart;
+            theFollowerNode = this->getNodeAtIndex(theFollowerPos);
+            while(theFollowerPos > 0 && theFollowerNode->getPayload() < this->getNodeAtIndex(theFollowerPos-1)->getPayload())
+            {
+                //we need to do a swap between theFollowerNode and the node before him.
+            }
+        } 
+    }
+}
+
 void LinkedList::addAtIndex(int value, int index)
 {
     if(index == 0)

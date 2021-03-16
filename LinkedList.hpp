@@ -6,6 +6,7 @@ class LinkedList
         Node* head;
         Node* tail;
         int count;
+        Node* getNodeAtIndex(int index);
 
     public:
         LinkedList();
@@ -16,4 +17,5 @@ class LinkedList
         int removeFront();
         int removeAtIndex(int index);
         void addAtIndex(int value, int index);
+        void insertionSort();
 };

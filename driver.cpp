@@ -28,7 +28,7 @@ int main(int argc, char** argv)
         ar[i] = val;
     }
 
-    //displayIntArray(ar);
+    displayIntArray(ar);
     insertionSort(ar);
     displayIntArray(ar);
     //URL* u1 = new URL("https://api.hearthstonejson.com/v1/25770/enUS/cards.json");
@@ -66,7 +66,7 @@ void insertionSort(int ar[])
 {
     int tempSwap;
     int theFollower;
-    for(int currStart = 0; currStart < ARRAY_LENGTH; currStart++)
+    for(int currStart = 1; currStart < ARRAY_LENGTH; currStart++)
     {
         theFollower = currStart;
         while(theFollower > 0 && ar[theFollower] < ar[theFollower-1])
