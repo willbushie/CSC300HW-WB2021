@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include "myFunctions.hpp"
-#include "LinkedList.hpp"
+#include "Stack.hpp"
 #include <stdlib.h>
 #include <time.h>
 
@@ -17,20 +17,12 @@ void displayIntArray(int ar[]);
 
 int main(int argc, char** argv)
 {
-    srandom(time(NULL));
-    long val; 
-    LinkedList* ll = new LinkedList();
-
-    for(int i = 0; i < ARRAY_LENGTH; i++)
-    {
-        val = random();
-        val = (val % 1000)+1;
-        ll->addEnd(val);
-    }
-
-    ll->display();
-    ll->insertionSort();
-    ll->display();
+    Stack* s = new Stack();
+    s->push(2);
+    //s->push(3);
+    s->show();
+    //cout << s->peek()<< endl;
+    //s->display();
     //displayIntArray(ar);
     //URL* u1 = new URL("https://api.hearthstonejson.com/v1/25770/enUS/cards.json");
     //cout << u1->getContents() << endl;

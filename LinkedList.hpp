@@ -5,8 +5,10 @@ class LinkedList
     private:
         Node* head;
         Node* tail;
-        int count;
+    
+    protected:
         Node* getNodeAtIndex(int index);
+        int count;
 
     public:
         LinkedList();

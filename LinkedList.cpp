@@ -47,7 +47,7 @@ void LinkedList::insertionSort()
                 if(this->head == swapNode)
                 {
                     swapNode->setNextNode(theFollowerNode->getNextNode());
-                    theFollowerNode->setNextNode(swapNode);
+                    theFollowerNode->setNextNode(head);
                     this->head = theFollowerNode;
                 }
                 else
@@ -60,6 +60,10 @@ void LinkedList::insertionSort()
                     swapNode->setNextNode(theFollowerNode->getNextNode());
                     theFollowerNode->setNextNode(swapNode);
                     beforeSwapNode->setNextNode(theFollowerNode);
+                }
+                if(this->tail == theFollowerNode) //resets tails if we are swapping away from tail
+                {
+                    this->tail = swapNode;
                 }
                 theFollowerPos--;
             }
