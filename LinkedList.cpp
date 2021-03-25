@@ -33,6 +33,7 @@ void LinkedList::insertionSort()
     {
         Node* theFollowerNode;
         Node* swapNode;
+        Node* beforeSwapNode;
         int theFollowerPos;
 
         for(int currStart = 1; currStart < this->count; currStart++)
@@ -42,6 +43,25 @@ void LinkedList::insertionSort()
             while(theFollowerPos > 0 && theFollowerNode->getPayload() < this->getNodeAtIndex(theFollowerPos-1)->getPayload())
             {
                 //we need to do a swap between theFollowerNode and the node before him.
+                swapNode = this->getNodeAtIndex(theFollowerPos-1);
+                if(this->head == swapNode)
+                {
+                    swapNode->setNextNode(theFollowerNode->getNextNode());
+                    theFollowerNode->setNextNode(swapNode);
+                    this->head = theFollowerNode;
+                }
+                else
+                {
+                    beforeSwapNode = this->head;
+                    while(beforeSwapNode->getNextNode() != swapNode)
+                    {
+                        beforeSwapNode = beforeSwapNode->getNextNode();
+                    }
+                    swapNode->setNextNode(theFollowerNode->getNextNode());
+                    theFollowerNode->setNextNode(swapNode);
+                    beforeSwapNode->setNextNode(theFollowerNode);
+                }
+                theFollowerPos--;
             }
         } 
     }

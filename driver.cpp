@@ -19,18 +19,19 @@ int main(int argc, char** argv)
 {
     srandom(time(NULL));
     long val; 
-    int ar[ARRAY_LENGTH];
+    LinkedList* ll = new LinkedList();
 
     for(int i = 0; i < ARRAY_LENGTH; i++)
     {
         val = random();
         val = (val % 1000)+1;
-        ar[i] = val;
+        ll->addEnd(val);
     }
 
-    displayIntArray(ar);
-    insertionSort(ar);
-    displayIntArray(ar);
+    ll->display();
+    ll->insertionSort();
+    ll->display();
+    //displayIntArray(ar);
     //URL* u1 = new URL("https://api.hearthstonejson.com/v1/25770/enUS/cards.json");
     //cout << u1->getContents() << endl;
     //string jsonString = "[{\"fname\":\"val1\", \"lname\": \"val2\", \"sums\":[1,2,3]},{\"fname\":\"val3\", \"lname\":\"val4\"}]";
