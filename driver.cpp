@@ -2,158 +2,35 @@
 #include "URL.hpp"
 #include <iostream>
 #include <string>
-#include "myFunctions.hpp"
-#include "Stack.hpp"
 #include <stdlib.h>
-#include <time.h>
+#include "json.hpp"
 
+using json = nlohmann::json;
 using namespace std;
-
-#define ARRAY_LENGTH 10 //called a macro
- 
-//prototype functions
-void insertionSort(int ar[]);
-void displayIntArray(int ar[]);
 
 int main(int argc, char** argv)
 {
-    Stack* s = new Stack();
-    s->push(2);
-    //s->push(3);
-    s->show();
-    //cout << s->peek()<< endl;
-    //s->display();
-    //displayIntArray(ar);
-    //URL* u1 = new URL("https://api.hearthstonejson.com/v1/25770/enUS/cards.json");
-    //cout << u1->getContents() << endl;
-    //string jsonString = "[{\"fname\":\"val1\", \"lname\": \"val2\", \"sums\":[1,2,3]},{\"fname\":\"val3\", \"lname\":\"val4\"}]";
-    //cout << jsonString << endl;
-    //processJSONObject(jsonString, 0);
-    /*
-    LinkedList* ll = new LinkedList();
-    ll->addEnd(4);
-    ll->addEnd(6);
-    ll->addEnd(8);
-    ll->addEnd(2);
-    ll->addFront(13);
-    ll->addFront(17);
-    ll->display();
-    int value = ll->removeAtIndex(3);
-    ll->display();
-    cout << value << endl;
-    ll->addAtIndex(6, 2);
-    ll->display();
-    */
+    URL* u1 = new URL("https://api.hearthstonejson.com/v1/25770/enUS/cards.json");
+    string jsonString = u1->getContents();
+    json parsedJson = json::parse(jsonString);
+    Card* theCards[parsedJson.size()];
+
+    if(parsedJson.is_array())
+    {
+        for(int i = 0; i < parsedJson.size(); i++)
+        {
+            json currValue = parsedJson[i];
+            if(currValue.is_object())
+            {
+                string name = currValue.value("name", "N/A");
+                int attack = currValue.value("attack", -1);
+                int defense = currValue.value("health", -1);
+                int manaCost = currValue.value("cost", -1);
+                theCards[i] = new Card(name, manaCost, attack, defense);
+                theCards[i]->display();
+            }
+        }
+    }
+    cout << "Number of Cards: " << parsedJson.size() << endl;
     return 0;
-}
-
-void displayIntArray(int ar[])
-{
-    for(int i = 0; i < ARRAY_LENGTH; i++)
-    {
-        cout << ar[i] << endl;
-    }
-}
-
-void insertionSort(int ar[])
-{
-    int tempSwap;
-    int theFollower;
-    for(int currStart = 1; currStart < ARRAY_LENGTH; currStart++)
-    {
-        theFollower = currStart;
-        while(theFollower > 0 && ar[theFollower] < ar[theFollower-1])
-        {
-            tempSwap = ar[theFollower];
-            ar[theFollower] = ar[theFollower-1];
-            ar[theFollower-1] = tempSwap;
-            theFollower--;
-        }
-    }
-}
-
-string processJSONObject(string json, int start)
-{
-    if(json[start] == '[')
-    {
-        return processJSONArray(json, start);
-    }
-    else if(json[start] == '{')
-    {
-        //must be an json object
-        string temp = "";
-        int countCurlyBraces = 1;
-        for(int i = start+1; i < json.length(); i++)
-        {
-            if(json[i] == '{')
-            {
-                temp += '{';
-                string answer = processJSONObject(json, i);
-                temp += answer;
-                i += answer.length()+1;
-                countCurlyBraces++;
-            }
-            else if(json[i] == '}')
-            {
-                countCurlyBraces--;
-                if(countCurlyBraces == 0)
-                {
-                    cout << temp << endl;
-                    return temp;
-                }
-            }
-            else if(json[i] == '[')
-            {
-                temp += '[';
-                string answer = processJSONArray(json, i);
-                temp += answer;
-                i += answer.length()+1;
-            }
-
-            if(i < json.length())
-            {
-                temp = temp + json[i];
-            }  
-        }
-    }
-}
-
-string processJSONArray(string json, int start)
-{
-    string temp = "";
-    int countSquareBrackets = 1;
-    //process contents of the array
-    for(int i = start+1; i < json.length(); i++)
-    {
-        if(json[i] == '[')
-        {
-            string answer = processJSONArray(json, i);
-            temp += answer;
-            i += answer.length()+1;
-            countSquareBrackets++;
-        }
-        else if(json[i] == ']')
-        {
-            countSquareBrackets--;
-            if(countSquareBrackets == 0)
-            {
-                cout << temp << endl;
-                return temp;
-                //return temp;
-            }
-        }
-        else if(json[i] == '{')
-        {
-            temp += '{';
-            string answer = processJSONObject(json, i);
-            temp += answer;
-            i += answer.length()+1;
-        }
-        
-        if(i < json.length())
-        {
-            temp = temp + json[i];
-        }  
-        
-    }
 }
