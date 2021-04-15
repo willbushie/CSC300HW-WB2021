@@ -1,13 +1,15 @@
+#include "Card.hpp"
+
 class Node
 {
     private:
-        int payload;
+        Card* payload;
         Node* nextNode;
         
     
     public:
-        Node(int payload);
+        Node(Card* card);
         void setNextNode(Node* n);
         Node* getNextNode();
-        int getPayload();
+        Card* getPayload();
 };

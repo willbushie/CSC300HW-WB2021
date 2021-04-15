@@ -1,4 +1,4 @@
-#include "Card.hpp"
+#include "LinkedList.hpp"
 #include "URL.hpp"
 #include <iostream>
 #include <string>
@@ -14,7 +14,7 @@ int main(int argc, char** argv)
     string jsonString = u1->getContents();
     json parsedJson = json::parse(jsonString);
     Card* theCards[parsedJson.size()];
-
+    LinkedList* minionCards = new LinkedList();
     if(parsedJson.is_array())
     {
         for(int i = 0; i < parsedJson.size(); i++)
@@ -22,15 +22,23 @@ int main(int argc, char** argv)
             json currValue = parsedJson[i];
             if(currValue.is_object())
             {
-                string name = currValue.value("name", "N/A");
-                int attack = currValue.value("attack", -1);
-                int defense = currValue.value("health", -1);
-                int manaCost = currValue.value("cost", -1);
-                theCards[i] = new Card(name, manaCost, attack, defense);
-                theCards[i]->display();
+                string type = currValue.value("type", "N/A");
+                if (type == "MINION")
+                {
+                    string name = currValue.value("name", "N/A");
+                    string type = currValue.value("type", "N/A");
+                    int attack = currValue.value("attack", -1);
+                    int defense = currValue.value("health", -1);
+                    int manaCost = currValue.value("cost", -1);
+                    Card* newCard = new Card(name, type, manaCost, attack, defense);
+                    minionCards->addEnd(newCard);
+                    //newCard->display();
+                }
             }
         }
-    }
-    cout << "Number of Cards: " << parsedJson.size() << endl;
+        minionCards->insertionSort();
+        minionCards->display();
+    }    
+    //cout << "Number of Cards: " << parsedJson.size() << endl;
     return 0;
 }

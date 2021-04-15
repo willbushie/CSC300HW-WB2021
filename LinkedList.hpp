@@ -13,11 +13,11 @@ class LinkedList
     public:
         LinkedList();
         void display();
-        void addEnd(int value);
-        int removeEnd();
-        void addFront(int value);
-        int removeFront();
-        int removeAtIndex(int index);
-        void addAtIndex(int value, int index);
+        void addEnd(Card* value);
+        Card* removeEnd();
+        void addFront(Card* value);
+        Card* removeFront();
+        Card* removeAtIndex(int index);
+        void addAtIndex(Card* value, int index);
         void insertionSort();
 };

@@ -1,9 +1,9 @@
 #include "Node.hpp"
 #include <stdlib.h>
 
-Node::Node(int payload)
+Node::Node(Card* card)
 {
-    this->payload = payload;
+    this->payload = card;
     this->nextNode = NULL;
 }
 
@@ -17,7 +17,7 @@ Node* Node::getNextNode()
     return this->nextNode;
 }
         
-int Node::getPayload()
+Card* Node::getPayload()
 {
     return this->payload;
 }

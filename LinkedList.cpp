@@ -40,7 +40,7 @@ void LinkedList::insertionSort()
         {
             theFollowerPos = currStart;
             theFollowerNode = this->getNodeAtIndex(theFollowerPos);
-            while(theFollowerPos > 0 && theFollowerNode->getPayload() < this->getNodeAtIndex(theFollowerPos-1)->getPayload())
+            while(theFollowerPos > 0 && theFollowerNode->getPayload()->defense < this->getNodeAtIndex(theFollowerPos-1)->getPayload()->defense)
             {
                 //we need to do a swap between theFollowerNode and the node before him.
                 swapNode = this->getNodeAtIndex(theFollowerPos-1);
@@ -71,19 +71,19 @@ void LinkedList::insertionSort()
     }
 }
 
-void LinkedList::addAtIndex(int value, int index)
+void LinkedList::addAtIndex(Card* card, int index)
 {
     if(index == 0)
     {
-        this->addFront(value);
+        this->addFront(card);
     }
     else if(index == this->count)
     {
-        this->addEnd(value);
+        this->addEnd(card);
     }
     else
     {
-        Node* dude2Add = new Node(value);
+        Node* dude2Add = new Node(card);
         Node* prevDude = this->head;
         for(int i = 0; i < (index-1); i++)
         {
@@ -96,7 +96,7 @@ void LinkedList::addAtIndex(int value, int index)
     
 }
 
-int LinkedList::removeAtIndex(int index)
+Card* LinkedList::removeAtIndex(int index)
 {
     if(this->head)
     {
@@ -145,7 +145,7 @@ int LinkedList::removeAtIndex(int index)
                //Now everything is position and we are ready to operate!!!
                prevDude->setNextNode(dude2Remove->getNextNode());
                dude2Remove->setNextNode(NULL);
-               int value2Return = dude2Remove->getPayload();
+               Card* value2Return = dude2Remove->getPayload();
                delete(dude2Remove);
                this->count--;
                return value2Return;
@@ -161,12 +161,12 @@ int LinkedList::removeAtIndex(int index)
     
 }
 
-void LinkedList::addFront(int value)
+void LinkedList::addFront(Card* card)
 {
     if(this->head)
     {
         //add it to the front
-        Node* n = new Node(value);
+        Node* n = new Node(card);
         n->setNextNode(this->head);
         this->head = n;
          this->count++;
@@ -174,18 +174,18 @@ void LinkedList::addFront(int value)
     else
     {
         //we have an empty list, so addFront and addEnd mean the same thing
-        this->addEnd(value);
+        this->addEnd(card);
     }
 }
 
-int LinkedList::removeFront()
+Card* LinkedList::removeFront()
 {
     if(this->head)
     {
         Node* currFront = this->head;
         this->head = this->head->getNextNode();
         currFront->setNextNode(NULL);
-        int valueToReturn = currFront->getPayload();
+        Card* valueToReturn = currFront->getPayload();
         delete(currFront);
         this->count--;
         return valueToReturn;
@@ -193,9 +193,9 @@ int LinkedList::removeFront()
     
 }
 
-void LinkedList::addEnd(int value)
+void LinkedList::addEnd(Card* card)
 {
-    Node* n = new Node(value);
+    Node* n = new Node(card);
     if(head == NULL)
     {
         //we have the empty list
@@ -212,12 +212,12 @@ void LinkedList::addEnd(int value)
     this->count++;
 }
 
-int LinkedList::removeEnd()
+Card* LinkedList::removeEnd()
 {
     if(this->count > 0)
     {
         Node* n = this->tail;
-        int value = n->getPayload();
+        Card* value = n->getPayload();
         if(this->count == 1)
         {
             this->head = NULL;
@@ -251,10 +251,9 @@ void LinkedList::display()
         Node* currNode = this->head;
         while(currNode->getNextNode() != NULL)
         {
-            cout << currNode->getPayload() << " -> ";
+            currNode->getPayload()->display();
             currNode = currNode->getNextNode();
         }
-        cout << currNode->getPayload() << endl;
-    }
-    
+        currNode->getPayload()->display();
+    }   
 }

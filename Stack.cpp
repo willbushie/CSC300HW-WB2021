@@ -1,6 +1,6 @@
 #include "Stack.hpp"
 
-void Stack::push(int value)
+void Stack::push(Card* value)
 {
     this->addFront(value);
 }
@@ -20,12 +20,12 @@ int Stack::getLength()
     return this->count;
 }
 
-int Stack::pop()
+Card* Stack::pop()
 {
     return this->removeFront();
 }
 
-int Stack::peek()
+Card* Stack::peek()
 {
     return this->getNodeAtIndex(0)->getPayload();
 }
