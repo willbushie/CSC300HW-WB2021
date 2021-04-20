@@ -5,19 +5,14 @@ class LinkedList
     private:
         Node* head;
         Node* tail;
-    
-    protected:
-        Node* getNodeAtIndex(int index);
         int count;
+        Node* get(int index);
+        void swap(int index1, int index2);
 
     public:
         LinkedList();
+        void addEnd(Card* c);
         void display();
-        void addEnd(int value);
-        int removeEnd();
-        void addFront(int value);
-        int removeFront();
-        int removeAtIndex(int index);
-        void addAtIndex(int value, int index);
-        void insertionSort();
+        int getCount();
+        void insertionSortOnDefense();
 };

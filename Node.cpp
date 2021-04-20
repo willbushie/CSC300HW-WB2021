@@ -1,10 +1,26 @@
 #include "Node.hpp"
 #include <stdlib.h>
 
-Node::Node(int payload)
+Node::Node(Card* payload)
 {
     this->payload = payload;
+    this->prevNode = NULL;
     this->nextNode = NULL;
+}
+
+Card* Node::getPayload()
+{
+    return this->payload;
+}
+
+Node* Node::getNextNode()
+{
+    return this->nextNode;
+}
+
+Node* Node::getPrevNode()
+{
+    return this->prevNode;
 }
 
 void Node::setNextNode(Node* n)
@@ -12,12 +28,7 @@ void Node::setNextNode(Node* n)
     this->nextNode = n;
 }
 
-Node* Node::getNextNode()
+void Node::setPrevNode(Node* n)
 {
-    return this->nextNode;
-}
-        
-int Node::getPayload()
-{
-    return this->payload;
+    this->prevNode = n;
 }

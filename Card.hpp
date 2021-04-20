@@ -13,4 +13,5 @@ class Card
     public:
         Card(string name, int mana_cost, int attack, int defense);
         void display();
+        int getDefense();
 };

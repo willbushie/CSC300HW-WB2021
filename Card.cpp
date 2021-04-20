@@ -11,6 +11,11 @@ Card::Card(string name, int mana_cost, int attack, int defense)
     this->defense = defense;
 }
 
+int Card::getDefense()
+{
+    return this->defense;
+}
+
 void Card::display()
 {
     cout << "Name: " << this->name << endl;
