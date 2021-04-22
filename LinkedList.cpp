@@ -1,5 +1,6 @@
 #include "LinkedList.hpp"
 #include <stdlib.h>
+#include <iostream>
 #include <stdio.h>
 
 LinkedList::LinkedList()
@@ -19,33 +20,47 @@ Node* LinkedList::get(int index)
     return node2Return;
 }
 
+// thinnk of list like this: A, larger, smaller, B
+// this list configuration will be referenced in the method
 void LinkedList::swap(int index1, int index2)
 {
+    // hold indexes for the passed ints
     int smaller = index1;
     int larger = index2;
+    // loop to check which index is larger
     if(larger < smaller)
     {
         smaller = index2;
         larger = index1;
     }
+    // get the nodes for each of the indexes
     Node* smallerNode = this->get(smaller);
     Node* largerNode = this->get(larger);
+    // print out the values index read outs
     printf("smaller: %d, larger: %d\n", smaller, larger);
-    smallerNode->setNextNode(largerNode->getNextNode());
-    largerNode->setPrevNode(smallerNode->getPrevNode());
-    largerNode->setNextNode(smallerNode);
-    smallerNode->getNextNode()->setPrevNode(smallerNode);
-    smallerNode->setPrevNode(largerNode);
+    // perform the swap
+    // update A's next node
+    largerNode->getPrevNode()->setNextNode(smallerNode);
+    // update B's prev node
+    smallerNode->getNextNode()->setPrevNode(largerNode);
+    // first operation
+    smallerNode->setPrevNode(largerNode->getPrevNode());
+    largerNode->setNextNode(largerNode->getPrevNode());
+    // second opeartion
+    smallerNode->setNextNode(largerNode);
+    largerNode->setPrevNode(smallerNode);
+
     if(smaller == 0)
     {
         this->head = largerNode;
+        cout << "set head to larger" << endl;
     }
 
     if(larger == this->count-1)
     {
         this->tail = smallerNode;
+        cout << "set tail to smaller" << endl;
     }
-    
 }
 
 void LinkedList::insertionSortOnDefense()
@@ -61,6 +76,8 @@ void LinkedList::insertionSortOnDefense()
             this->swap(theFollower, theFollower-1);
             theFollower--;
         }
+        // print out the currStart #
+        //cout << "curr start: " << currStart << endl;
     }
 }
 

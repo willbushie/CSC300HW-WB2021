@@ -34,6 +34,7 @@ int main(int argc, char** argv)
             }
         }
     }
+    cout << "Number of Cards: " << theCards->getCount() << endl;
     theCards->insertionSortOnDefense();
     theCards->display();
     cout << "Number of Cards: " << theCards->getCount() << endl;
